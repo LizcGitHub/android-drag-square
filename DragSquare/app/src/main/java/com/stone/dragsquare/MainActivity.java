@@ -8,34 +8,25 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
-import com.soundcloud.android.crop.Crop;
-
-import java.io.File;
+import com.tinklabs.dragsquareimage.DraggablePresentImpl;
+import com.tinklabs.dragsquareimage.DraggableSquareView;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private DraggableSquareView dragSquare;
-    private int imageStatus;
-    private boolean isModify;
+    private DraggablePresentImpl draggablePresent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initImageLoader();
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("编辑个人资料");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dragSquare = (DraggableSquareView) findViewById(R.id.drag_square);
+        draggablePresent = new DraggablePresentImpl(dragSquare);
     }
 
 
@@ -49,55 +40,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void pickImage(int imageStatus, boolean isModify) {
-        this.imageStatus = imageStatus;
-        this.isModify = isModify;
-        Crop.pickImage(this);
-    }
-
-    private void initImageLoader() {
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-                this)
-                .memoryCacheExtraOptions(480, 800)
-                .threadPoolSize(3)
-                .threadPriority(Thread.NORM_PRIORITY - 1)
-                .tasksProcessingOrder(QueueProcessingType.FIFO)
-                .denyCacheImageMultipleSizesInMemory()
-                .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
-                .memoryCacheSize(2 * 1024 * 1024).memoryCacheSizePercentage(13)
-                .discCacheSize(50 * 1024 * 1024)
-                .discCacheFileCount(100)
-                .discCacheFileNameGenerator(new HashCodeFileNameGenerator())
-                .imageDownloader(new BaseImageDownloader(this))
-                .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
-                .writeDebugLogs().build();
-        ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.init(config);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent result) {
-        if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK) {
-            beginCrop(result.getData());
-        } else if (requestCode == Crop.REQUEST_CROP) {
-            handleCrop(resultCode, result);
-        }
-    }
-
-    private void beginCrop(Uri source) {
-        Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped_" + System.currentTimeMillis() + ".jpg"));
-        Crop.of(source, destination).asSquare().start(this);
-    }
-
-    private void handleCrop(int resultCode, Intent result) {
-        if (resultCode == RESULT_OK) {
-            Uri uri = Crop.getOutput(result);
-            String imagePath = uri.toString();
-            dragSquare.fillItemImage(imageStatus, imagePath, isModify);
-
-        } else if (resultCode == Crop.RESULT_ERROR) {
-            Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
-        }
+        draggablePresent.onActivityResult(requestCode, resultCode, result);
     }
 
     /**

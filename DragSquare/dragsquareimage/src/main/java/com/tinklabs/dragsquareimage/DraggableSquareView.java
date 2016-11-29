@@ -1,6 +1,7 @@
-package com.stone.dragsquare;
+package com.tinklabs.dragsquareimage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Handler;
 import android.os.Message;
@@ -20,7 +21,7 @@ import java.util.List;
  * 正方形的拖拽面板
  * Created by xmuSistone on 2016/5/23.
  */
-public class DraggableSquareView extends ViewGroup {
+public class DraggableSquareView extends ViewGroup implements DraggableItemView.Listener{
     // ACTION_DOWN按下后超过这个时间，就直接touch拦截，不会调用底层view的onClick事件
     private static final int INTERCEPT_TIME_SLOP = 200;
     private final int[] allStatus = {DraggableItemView.STATUS_LEFT_TOP, DraggableItemView.STATUS_RIGHT_TOP,
@@ -41,7 +42,7 @@ public class DraggableSquareView extends ViewGroup {
     private Thread moveAnchorThread; // 按下的时候，itemView的重心移动，此为对应线程
     private Handler anchorHandler; // itemView需要移动重心，此为对应的Handler
     private Object synObj = new Object();
-
+    private DraggablePresent draggablePresent;
     public DraggableSquareView(Context context) {
         this(context, null);
     }
@@ -74,6 +75,10 @@ public class DraggableSquareView extends ViewGroup {
         };
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent result) {
+
+    }
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -84,6 +89,7 @@ public class DraggableSquareView extends ViewGroup {
             DraggableItemView itemView = new DraggableItemView(getContext());
             itemView.setStatus(allStatus[i]);
             itemView.setParentView(this);
+            itemView.setListener(this);
             originViewPositionList.add(new Point()); //  原始位置点，由此初始化，一定与子View的status绑定
             addView(itemView);
         }
@@ -135,6 +141,15 @@ public class DraggableSquareView extends ViewGroup {
             // 被delete的view移动到队尾
             deleteView.switchPosition(lastDraggableViewStatus);
         }
+    }
+
+    @Override
+    public void pickImage(int imageStatus, boolean isModify) {
+        draggablePresent.pickImage(imageStatus,isModify);
+    }
+
+    public void setPresent(DraggablePresent draggablePresent) {
+        this.draggablePresent = draggablePresent;
     }
 
     /**

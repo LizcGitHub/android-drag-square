@@ -1,4 +1,4 @@
-package com.stone.dragsquare;
+package com.tinklabs.dragsquareimage;
 
 import android.content.Context;
 import android.os.Bundle;

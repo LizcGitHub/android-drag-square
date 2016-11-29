@@ -1,4 +1,4 @@
-package com.stone.dragsquare;
+package com.tinklabs.dragsquareimage;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -9,13 +9,12 @@ import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.facebook.rebound.SimpleSpringListener;
 import com.facebook.rebound.Spring;
 import com.facebook.rebound.SpringConfig;
 import com.facebook.rebound.SpringSystem;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by xmuSistone on 2016/5/23.
@@ -34,6 +33,7 @@ public class DraggableItemView extends FrameLayout {
     public static final int SCALE_LEVEL_3 = 3; // 最小状态，缩放比例是smallerRate
 
     private ImageView imageView;
+    private Listener listener;
     private View maskView;
     private int status;
     private float scaleRate = 0.5f;
@@ -69,7 +69,7 @@ public class DraggableItemView extends FrameLayout {
             public void onClick(View v) {
                 if (v.getId() == R.id.pick_image) {
                     // 从相册选择图片
-                    pickImage();
+                    if (listener != null) listener.pickImage(status, isDraggable());
                 } else {
                     // 删除
                     imagePath = null;
@@ -94,7 +94,7 @@ public class DraggableItemView extends FrameLayout {
             @Override
             public void onClick(View v) {
                 if (!isDraggable()) {
-                    pickImage();
+                    if (listener != null) listener.pickImage(status, isDraggable());
                 } else {
                     CustDialog dialog = new CustDialog(getContext());
                     dialog.setClickListener(dialogListener);
@@ -106,9 +106,12 @@ public class DraggableItemView extends FrameLayout {
         initSpring();
     }
 
-    private void pickImage() {
-        MainActivity mainActivity = (MainActivity) getContext();
-        mainActivity.pickImage(status, isDraggable());
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
+
+    public interface Listener {
+        void pickImage(int imageStatus, boolean isModify);
     }
 
     /**
@@ -287,7 +290,7 @@ public class DraggableItemView extends FrameLayout {
     public void fillImageView(String imagePath) {
         this.imagePath = imagePath;
         addView.setVisibility(View.GONE);
-        ImageLoader.getInstance().displayImage(imagePath, imageView);
+        Picasso.with(getContext()).load(imagePath).into(imageView);
     }
 
     // 以下两个get、set方法是为自定义的属性动画CustScale服务，不能删
