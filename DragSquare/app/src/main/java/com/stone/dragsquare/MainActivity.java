@@ -7,15 +7,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.SparseArray;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.swifty.dragsquareimage.DraggablePresentImpl;
 import com.swifty.dragsquareimage.DraggableSquareView;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    private DraggableSquareView dragSquare;
+    private TextView contentText;
     private DraggablePresentImpl draggablePresent;
 
     @Override
@@ -25,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("编辑个人资料");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        dragSquare = (DraggableSquareView) findViewById(R.id.drag_square);
+        DraggableSquareView dragSquare = (DraggableSquareView) findViewById(R.id.drag_square);
+        contentText = (TextView) findViewById(R.id.contentText);
         draggablePresent = new DraggablePresentImpl(dragSquare);
     }
 
@@ -74,5 +77,16 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return data;
+    }
+
+    public void showUrls(View view) {
+        SparseArray<String> array = draggablePresent.getImageUrls();
+        if (array == null) return;
+        StringBuilder stringBuffer = new StringBuilder();
+        for (int i = 0; i < array.size(); i++) {
+            String o = array.get(array.keyAt(i));
+            stringBuffer.append(i).append(":").append(o).append("\n");
+        }
+        contentText.setText(stringBuffer.toString());
     }
 }

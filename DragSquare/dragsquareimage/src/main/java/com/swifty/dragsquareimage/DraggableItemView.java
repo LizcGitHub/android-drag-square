@@ -318,5 +318,9 @@ public class DraggableItemView extends FrameLayout {
     public boolean isDraggable() {
         return imagePath != null;
     }
+
+    public String getImagePath() {
+        return imagePath;
+    }
 }
 

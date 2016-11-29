@@ -7,13 +7,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.widget.ViewDragHelper;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-
 import com.swifty.dragsquareimage.R;
 
 import java.util.ArrayList;
@@ -23,12 +24,13 @@ import java.util.List;
  * 正方形的拖拽面板
  * Created by xmuSistone on 2016/5/23.
  */
-public class DraggableSquareView extends ViewGroup implements DraggableItemView.Listener{
+public class DraggableSquareView extends ViewGroup implements DraggableItemView.Listener {
     // ACTION_DOWN按下后超过这个时间，就直接touch拦截，不会调用底层view的onClick事件
     private static final int INTERCEPT_TIME_SLOP = 200;
     private final int[] allStatus = {DraggableItemView.STATUS_LEFT_TOP, DraggableItemView.STATUS_RIGHT_TOP,
             DraggableItemView.STATUS_RIGHT_MIDDLE, DraggableItemView.STATUS_RIGHT_BOTTOM,
             DraggableItemView.STATUS_MIDDLE_BOTTOM, DraggableItemView.STATUS_LEFT_BOTTOM};
+    private Listener listener;
 
     private int mTouchSlop = 5; // 判定为滑动的阈值，单位是像素
     private int spaceInterval = 4; // 小方块之间的间隔
@@ -44,7 +46,7 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
     private Thread moveAnchorThread; // 按下的时候，itemView的重心移动，此为对应线程
     private Handler anchorHandler; // itemView需要移动重心，此为对应的Handler
     private Object synObj = new Object();
-    private DraggablePresent draggablePresent;
+
     public DraggableSquareView(Context context) {
         this(context, null);
     }
@@ -147,11 +149,15 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
 
     @Override
     public void pickImage(int imageStatus, boolean isModify) {
-        draggablePresent.pickImage(imageStatus,isModify);
+        if(listener!=null) listener.pickImage(imageStatus,isModify);
     }
 
-    public void setPresent(DraggablePresent draggablePresent) {
-        this.draggablePresent = draggablePresent;
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
+
+    public interface Listener {
+        void pickImage(int imageStatus, boolean isModify);
     }
 
     /**
@@ -531,5 +537,16 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
             ex.printStackTrace();
         }
         return true;
+    }
+
+    public SparseArray<String> getImageUrls() {
+        SparseArray<String> stringSparseArray = new SparseArray<>();
+        for (int i = 0; i < getChildCount(); i++) {
+            if (getChildAt(i) instanceof DraggableItemView
+                    && !TextUtils.isEmpty(((DraggableItemView) getChildAt(i)).getImagePath())) {
+                stringSparseArray.put(i, ((DraggableItemView) getChildAt(i)).getImagePath());
+            }
+        }
+        return stringSparseArray;
     }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.SparseArray;
 import android.widget.Toast;
 
 import com.soundcloud.android.crop.Crop;
@@ -14,14 +15,14 @@ import java.io.File;
  * Created by swifty on 29/11/2016.
  */
 
-public class DraggablePresentImpl implements DraggablePresent {
+public class DraggablePresentImpl implements DraggablePresent,DraggableSquareView.Listener {
     private final DraggableSquareView dragSquare;
     private int imageStatus;
     private boolean isModify;
 
     public DraggablePresentImpl(@NonNull DraggableSquareView dragSquare) {
         this.dragSquare = dragSquare;
-        dragSquare.setPresent(this);
+        dragSquare.setListener(this);
     }
 
     @Override
@@ -58,5 +59,10 @@ public class DraggablePresentImpl implements DraggablePresent {
         this.imageStatus = imageStatus;
         this.isModify = isModify;
         Crop.pickImage((Activity) dragSquare.getContext());
+    }
+
+    @Override
+    public SparseArray<String> getImageUrls() {
+        return dragSquare.getImageUrls();
     }
 }
