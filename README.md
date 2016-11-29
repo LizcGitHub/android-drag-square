@@ -1,3 +1,17 @@
+<h1>Modified by Swifty</h1>
+refactor the repository, easy to use.
+[![](https://jitpack.io/v/SwiftyWang/android-drag-square.svg)](https://jitpack.io/#SwiftyWang/android-drag-square)
+
+```java
+        DraggableSquareView dragSquare = (DraggableSquareView) findViewById(R.id.drag_square);
+        contentText = (TextView) findViewById(R.id.contentText);
+        draggablePresent = new DraggablePresentImpl(dragSquare);
+	draggablePresent.getImageUrls();
+```
+
+
+
+
 # android-drag-square
 edit personal data which enables users to drag and rank image order
 
