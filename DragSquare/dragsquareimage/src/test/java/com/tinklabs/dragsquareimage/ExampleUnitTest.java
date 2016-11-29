@@ -1,4 +1,4 @@
-package com.tinklabs.dragsquareimage;
+package com.swifty.dragsquareimage;
 
 import org.junit.Test;
 

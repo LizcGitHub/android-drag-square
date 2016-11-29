@@ -9,8 +9,8 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.tinklabs.dragsquareimage.DraggablePresentImpl;
-import com.tinklabs.dragsquareimage.DraggableSquareView;
+import com.swifty.dragsquareimage.DraggablePresentImpl;
+import com.swifty.dragsquareimage.DraggableSquareView;
 
 public class MainActivity extends AppCompatActivity {
 

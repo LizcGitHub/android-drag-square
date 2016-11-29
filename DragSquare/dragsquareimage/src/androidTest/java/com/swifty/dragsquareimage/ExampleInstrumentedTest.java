@@ -1,4 +1,4 @@
-package com.tinklabs.dragsquareimage;
+package com.swifty.dragsquareimage;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.tinklabs.dragsquareimage.test", appContext.getPackageName());
+        assertEquals("com.swifty.dragsquareimage.test", appContext.getPackageName());
     }
 }

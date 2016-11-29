@@ -1,4 +1,4 @@
-package com.tinklabs.dragsquareimage;
+package com.swifty.dragsquareimage;
 
 import android.app.Activity;
 import android.content.Intent;

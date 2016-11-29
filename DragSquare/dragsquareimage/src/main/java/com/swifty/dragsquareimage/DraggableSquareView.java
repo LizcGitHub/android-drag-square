@@ -1,4 +1,4 @@
-package com.tinklabs.dragsquareimage;
+package com.swifty.dragsquareimage;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+
+import com.swifty.dragsquareimage.R;
 
 import java.util.ArrayList;
 import java.util.List;
