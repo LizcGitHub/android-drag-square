@@ -79,10 +79,6 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
         };
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent result) {
-
-    }
-
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
