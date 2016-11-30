@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         DraggableSquareView dragSquare = (DraggableSquareView) findViewById(R.id.drag_square);
         contentText = (TextView) findViewById(R.id.contentText);
         draggablePresent = new DraggablePresenterImpl(dragSquare);
-        draggablePresent.setImages(new String[]{"http://lorempixel.com/400/400?flag=1","http://lorempixel.com/400/400?flag=2"});
+        draggablePresent.setImages(new String[]{"http://lorempixel.com/400/400?flag=0", "http://lorempixel.com/400/400?flag=1", "http://lorempixel.com/400/400?flag=2", "http://lorempixel.com/400/400?flag=3", "http://lorempixel.com/400/400?flag=4", "http://lorempixel.com/400/400?flag=5"});
     }
 
 

@@ -538,7 +538,7 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
         for (int i = 0; i < getChildCount(); i++) {
             if (getChildAt(i) instanceof DraggableItemView
                     && !TextUtils.isEmpty(((DraggableItemView) getChildAt(i)).getImagePath())) {
-                stringSparseArray.put(i, ((DraggableItemView) getChildAt(i)).getImagePath());
+                stringSparseArray.put(((DraggableItemView) getChildAt(i)).getStatus(), ((DraggableItemView) getChildAt(i)).getImagePath());
             }
         }
         return stringSparseArray;
