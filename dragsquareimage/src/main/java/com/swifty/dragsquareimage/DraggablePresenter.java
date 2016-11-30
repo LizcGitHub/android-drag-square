@@ -8,7 +8,7 @@ import android.util.SparseArray;
  * Created by swifty on 29/11/2016.
  */
 
-public interface DraggablePresent {
+public interface DraggablePresenter {
 
     void onActivityResult(int requestCode, int resultCode, Intent result);
 

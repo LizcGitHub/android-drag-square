@@ -15,12 +15,12 @@ import java.io.File;
  * Created by swifty on 29/11/2016.
  */
 
-public class DraggablePresentImpl implements DraggablePresent,DraggableSquareView.Listener {
+public class DraggablePresenterImpl implements DraggablePresenter,DraggableSquareView.Listener {
     private final DraggableSquareView dragSquare;
     private int imageStatus;
     private boolean isModify;
 
-    public DraggablePresentImpl(@NonNull DraggableSquareView dragSquare) {
+    public DraggablePresenterImpl(@NonNull DraggableSquareView dragSquare) {
         this.dragSquare = dragSquare;
         dragSquare.setListener(this);
     }

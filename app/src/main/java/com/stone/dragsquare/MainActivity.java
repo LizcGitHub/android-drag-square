@@ -12,13 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.swifty.dragsquareimage.DraggablePresentImpl;
+import com.swifty.dragsquareimage.DraggablePresenterImpl;
 import com.swifty.dragsquareimage.DraggableSquareView;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView contentText;
-    private DraggablePresentImpl draggablePresent;
+    private DraggablePresenterImpl draggablePresent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         DraggableSquareView dragSquare = (DraggableSquareView) findViewById(R.id.drag_square);
         contentText = (TextView) findViewById(R.id.contentText);
-        draggablePresent = new DraggablePresentImpl(dragSquare);
+        draggablePresent = new DraggablePresenterImpl(dragSquare);
     }
 
 
