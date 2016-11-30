@@ -15,7 +15,6 @@ import com.facebook.rebound.Spring;
 import com.facebook.rebound.SpringConfig;
 import com.facebook.rebound.SpringSystem;
 import com.squareup.picasso.Picasso;
-import com.swifty.dragsquareimage.R;
 
 /**
  * Created by xmuSistone on 2016/5/23.

@@ -173,6 +173,8 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
         public boolean tryCaptureView(View child, int pointerId) {
             // 按下的时候，缩放到最小的级别
             draggingView = (DraggableItemView) child;
+            // 手指按下的时候，需要把某些view bringToFront，否则的话，tryCapture将不按预期工作
+            if (draggingView.isDraggable()) getParent().requestDisallowInterceptTouchEvent(true);
             return draggingView.isDraggable();
         }
 
@@ -423,8 +425,6 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            // 手指按下的时候，需要把某些view bringToFront，否则的话，tryCapture将不按预期工作
-            getParent().requestDisallowInterceptTouchEvent(true);
             downX = (int) ev.getX();
             downY = (int) ev.getY();
             downTime = System.currentTimeMillis();
@@ -544,7 +544,7 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
         return stringSparseArray;
     }
 
-    public int getImageSetSize(){
+    public int getImageSetSize() {
         return allStatus.length;
     }
 }

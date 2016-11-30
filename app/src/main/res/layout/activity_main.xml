@@ -26,5 +26,7 @@
             android:id="@+id/contentText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+        <include layout="@layout/main_scroll_content"/>
     </LinearLayout>
 </ScrollView>
