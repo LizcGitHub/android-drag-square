@@ -71,4 +71,12 @@ public class DraggablePresenterImpl implements DraggablePresenter, DraggableSqua
     public SparseArray<String> getImageUrls() {
         return dragSquare.getImageUrls();
     }
+
+    @Override
+    public void setImages(String... imageUrls) {
+        if (imageUrls == null) return;
+        for (int i = 0; i < (imageUrls.length > dragSquare.getImageSetSize() ? dragSquare.getImageSetSize() : imageUrls.length); i++) {
+            dragSquare.fillItemImage(imageStatus, imageUrls[i], false);
+        }
+    }
 }

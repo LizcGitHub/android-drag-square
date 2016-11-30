@@ -12,13 +12,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.swifty.dragsquareimage.DraggablePresenter;
 import com.swifty.dragsquareimage.DraggablePresenterImpl;
 import com.swifty.dragsquareimage.DraggableSquareView;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView contentText;
-    private DraggablePresenterImpl draggablePresent;
+    private DraggablePresenter draggablePresent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         DraggableSquareView dragSquare = (DraggableSquareView) findViewById(R.id.drag_square);
         contentText = (TextView) findViewById(R.id.contentText);
         draggablePresent = new DraggablePresenterImpl(dragSquare);
+        draggablePresent.setImages(new String[]{"http://lorempixel.com/400/400?flag=1","http://lorempixel.com/400/400?flag=2"});
     }
 
 

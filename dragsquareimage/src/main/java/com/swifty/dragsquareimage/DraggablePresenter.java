@@ -17,4 +17,6 @@ public interface DraggablePresenter {
     void handleCrop(int resultCode, Intent result);
 
     SparseArray<String> getImageUrls();
+
+    void setImages(String... imageUrls);
 }

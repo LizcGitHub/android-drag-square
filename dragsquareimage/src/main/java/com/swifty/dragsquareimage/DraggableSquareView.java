@@ -1,7 +1,6 @@
 package com.swifty.dragsquareimage;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Point;
 import android.os.Handler;
 import android.os.Message;
@@ -15,7 +14,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import com.swifty.dragsquareimage.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -145,7 +143,7 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
 
     @Override
     public void pickImage(int imageStatus, boolean isModify) {
-        if(listener!=null) listener.pickImage(imageStatus,isModify);
+        if (listener != null) listener.pickImage(imageStatus, isModify);
     }
 
     public void setListener(Listener listener) {
@@ -544,5 +542,9 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
             }
         }
         return stringSparseArray;
+    }
+
+    public int getImageSetSize(){
+        return allStatus.length;
     }
 }
