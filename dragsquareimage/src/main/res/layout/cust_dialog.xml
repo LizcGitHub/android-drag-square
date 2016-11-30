@@ -6,26 +6,26 @@
               android:orientation="vertical">
 
     <Button
-        android:id="@+id/delete"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="20dp"
-        android:text="@string/delete"/>
-
-    <Button
         android:id="@+id/pick_image"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="20dp"
-        android:text="@string/select_image"/>
+        android:gravity="center"
+        android:text="@string/select_image"
+        android:textColor="@android:color/black"/>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="#dddddd"/>
+
+    <Button
+        android:id="@+id/delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="@string/delete"
+        android:textColor="@android:color/black"/>
 
 </LinearLayout>
