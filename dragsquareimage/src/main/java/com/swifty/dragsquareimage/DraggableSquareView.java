@@ -104,15 +104,19 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
         // 1. 如果是修改图片，直接填充就好
         if (isModify) {
             DraggableItemView itemView = getItemViewByStatus(imageStatus);
-            itemView.fillImageView(imagePath);
-            return;
+            if (itemView != null) {
+                itemView.fillImageView(imagePath);
+                if (imageChangesListener != null) imageChangesListener.onImageEdited(imagePath, imageStatus);
+                return;
+            }
         }
 
         // 2. 新增图片
         for (int i = 0; i < allStatus.length; i++) {
             DraggableItemView itemView = getItemViewByStatus(i);
-            if (!itemView.isDraggable()) {
+            if (itemView != null && !itemView.isDraggable()) {
                 itemView.fillImageView(imagePath);
+                if (imageChangesListener != null) imageChangesListener.onImageAdded(imagePath, imageStatus);
                 break;
             }
         }
@@ -121,7 +125,7 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
     /**
      * 删除某一个ImageView时，该imageView变成空的，需要移动到队尾
      */
-    public void onDedeleteImage(DraggableItemView deleteView) {
+    public void onDeleteImage(DraggableItemView deleteView) {
         int status = deleteView.getStatus();
         int lastDraggableViewStatus = -1;
         // 顺次将可拖拽的view往前移
@@ -139,6 +143,7 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
             // 被delete的view移动到队尾
             deleteView.switchPosition(lastDraggableViewStatus);
         }
+        if (imageChangesListener != null) imageChangesListener.onImageDeleted(deleteView.getImagePath(), deleteView.getStatus());
     }
 
     @Override
@@ -546,5 +551,19 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
 
     public int getImageSetSize() {
         return allStatus.length;
+    }
+
+    public void setImageChangesListener(ImageChangesListener imageChangesListener) {
+        this.imageChangesListener = imageChangesListener;
+    }
+
+    ImageChangesListener imageChangesListener;
+
+    public interface ImageChangesListener {
+        void onImageAdded(String uri, int index);
+
+        void onImageEdited(String uri, int index);
+
+        void onImageDeleted(String uri, int index);
     }
 }

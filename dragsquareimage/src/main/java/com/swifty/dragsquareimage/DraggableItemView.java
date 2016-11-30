@@ -75,7 +75,7 @@ public class DraggableItemView extends FrameLayout {
                     imagePath = null;
                     imageView.setImageBitmap(null);
                     addView.setVisibility(View.VISIBLE);
-                    parentView.onDedeleteImage(DraggableItemView.this);
+                    parentView.onDeleteImage(DraggableItemView.this);
                 }
             }
         };
