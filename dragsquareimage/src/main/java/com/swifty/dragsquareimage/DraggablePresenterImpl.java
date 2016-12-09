@@ -1,6 +1,7 @@
 package com.swifty.dragsquareimage;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -19,8 +20,23 @@ public class DraggablePresenterImpl implements DraggablePresenter, DraggableSqua
     private final DraggableSquareView dragSquare;
     private int imageStatus;
     private boolean isModify;
+    private Activity activity;
+    private Fragment fragment;
 
-    public DraggablePresenterImpl(@NonNull DraggableSquareView dragSquare) {
+    public DraggablePresenterImpl(@NonNull Activity activity, @NonNull DraggableSquareView dragSquare) {
+        this.activity = activity;
+        this.dragSquare = dragSquare;
+        this.dragSquare.post(new Runnable() {
+            @Override
+            public void run() {
+                DraggablePresenterImpl.this.dragSquare.requestLayout();
+            }
+        });
+        dragSquare.setListener(this);
+    }
+
+    public DraggablePresenterImpl(@NonNull Fragment fragment, @NonNull DraggableSquareView dragSquare) {
+        this.fragment = fragment;
         this.dragSquare = dragSquare;
         this.dragSquare.post(new Runnable() {
             @Override
@@ -64,7 +80,11 @@ public class DraggablePresenterImpl implements DraggablePresenter, DraggableSqua
     public void pickImage(int imageStatus, boolean isModify) {
         this.imageStatus = imageStatus;
         this.isModify = isModify;
-        Crop.pickImage((Activity) dragSquare.getContext());
+        if (activity != null) {
+            Crop.pickImage(activity);
+        } else if (fragment != null) {
+            Crop.pickImage(fragment);
+        }
     }
 
     @Override

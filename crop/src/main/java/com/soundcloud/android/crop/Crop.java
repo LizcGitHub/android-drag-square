@@ -180,6 +180,10 @@ public class Crop {
         pickImage(activity, REQUEST_PICK);
     }
 
+    public static void pickImage(Fragment fragment) {
+        pickImage(fragment.getActivity(), fragment, REQUEST_PICK);
+    }
+
     /**
      * Pick image from a Fragment
      *
