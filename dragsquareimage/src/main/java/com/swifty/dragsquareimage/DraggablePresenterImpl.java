@@ -50,9 +50,7 @@ public class DraggablePresenterImpl implements DraggablePresenter, DraggableSqua
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent result) {
         if (requestCode == Crop.REQUEST_PICK && resultCode == Activity.RESULT_OK) {
-            if (dragSquare.getContext() instanceof Activity) {
-                beginCrop(result.getData());
-            }
+            beginCrop(result.getData());
         } else if (requestCode == Crop.REQUEST_CROP) {
             handleCrop(resultCode, result);
         }
@@ -60,8 +58,13 @@ public class DraggablePresenterImpl implements DraggablePresenter, DraggableSqua
 
     @Override
     public void beginCrop(Uri source) {
-        Uri destination = Uri.fromFile(new File(dragSquare.getContext().getCacheDir(), "cropped_" + System.currentTimeMillis() + ".jpg"));
-        Crop.of(source, destination).asSquare().start((Activity) dragSquare.getContext());
+        if (activity != null) {
+            Uri destination = Uri.fromFile(new File(activity.getCacheDir(), "cropped_" + System.currentTimeMillis() + ".jpg"));
+            Crop.of(source, destination).asSquare().start(activity);
+        } else if (fragment != null) {
+            Uri destination = Uri.fromFile(new File(fragment.getActivity().getCacheDir(), "cropped_" + System.currentTimeMillis() + ".jpg"));
+            Crop.of(source, destination).asSquare().start(fragment.getActivity(), fragment);
+        }
     }
 
     @Override
