@@ -19,4 +19,6 @@ public interface DraggablePresenter {
     SparseArray<String> getImageUrls();
 
     void setImages(String... imageUrls);
+
+    void setCustomActionDialog(ActionDialog actionDialog);
 }

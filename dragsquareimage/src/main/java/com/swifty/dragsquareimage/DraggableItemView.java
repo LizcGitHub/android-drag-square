@@ -19,7 +19,7 @@ import com.squareup.picasso.Picasso;
 /**
  * Created by xmuSistone on 2016/5/23.
  */
-public class DraggableItemView extends FrameLayout {
+public class DraggableItemView extends FrameLayout implements ActionDialogClick {
 
     public static final int STATUS_LEFT_TOP = 0;
     public static final int STATUS_RIGHT_TOP = 1;
@@ -44,7 +44,6 @@ public class DraggableItemView extends FrameLayout {
     private DraggableSquareView parentView;
     private SpringConfig springConfigCommon = SpringConfig.fromOrigamiTensionAndFriction(140, 7);
     private int moveDstX = Integer.MIN_VALUE, moveDstY = Integer.MIN_VALUE;
-    private View.OnClickListener dialogListener;
 
     private String imagePath;
     private View addView;
@@ -64,22 +63,6 @@ public class DraggableItemView extends FrameLayout {
         maskView = findViewById(R.id.drag_item_mask_view);
         addView = findViewById(R.id.add_view);
 
-        dialogListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v.getId() == R.id.pick_image) {
-                    // 从相册选择图片
-                    if (listener != null) listener.pickImage(status, isDraggable());
-                } else {
-                    // 删除
-                    imagePath = null;
-                    imageView.setImageBitmap(null);
-                    addView.setVisibility(View.VISIBLE);
-                    parentView.onDeleteImage(DraggableItemView.this);
-                }
-            }
-        };
-
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -96,14 +79,32 @@ public class DraggableItemView extends FrameLayout {
                 if (!isDraggable()) {
                     if (listener != null) listener.pickImage(status, isDraggable());
                 } else {
-                    CustDialog dialog = new CustDialog(getContext());
-                    dialog.setClickListener(dialogListener);
-                    dialog.show();
+                    if (parentView.getActionDialog() == null) {
+                        DefaultActionDialog dialog = new DefaultActionDialog(getContext());
+                        dialog.setActionDialogClick(DraggableItemView.this);
+                        dialog.show();
+                    } else {
+                        parentView.getActionDialog().setActionDialogClick(DraggableItemView.this);
+                        parentView.getActionDialog().show();
+                    }
                 }
             }
         });
 
         initSpring();
+    }
+
+    @Override
+    public void onPickImageClick(View view) {
+        if (listener != null) listener.pickImage(status, isDraggable());
+    }
+
+    @Override
+    public void onDeleteClick(View view) {
+        imagePath = null;
+        imageView.setImageBitmap(null);
+        addView.setVisibility(View.VISIBLE);
+        parentView.onDeleteImage(DraggableItemView.this);
     }
 
     public void setListener(Listener listener) {

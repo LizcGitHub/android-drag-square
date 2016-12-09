@@ -28,6 +28,7 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
     private final int[] allStatus = {DraggableItemView.STATUS_LEFT_TOP, DraggableItemView.STATUS_RIGHT_TOP,
             DraggableItemView.STATUS_RIGHT_MIDDLE, DraggableItemView.STATUS_RIGHT_BOTTOM,
             DraggableItemView.STATUS_MIDDLE_BOTTOM, DraggableItemView.STATUS_LEFT_BOTTOM};
+    private ActionDialog actionDialog;
     private Listener listener;
 
     private int mTouchSlop = 5; // 判定为滑动的阈值，单位是像素
@@ -149,6 +150,14 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
     @Override
     public void pickImage(int imageStatus, boolean isModify) {
         if (listener != null) listener.pickImage(imageStatus, isModify);
+    }
+
+    public void setCustomActionDialog(ActionDialog actionDialog) {
+        this.actionDialog = actionDialog;
+    }
+
+    public ActionDialog getActionDialog() {
+        return actionDialog;
     }
 
     public void setListener(Listener listener) {

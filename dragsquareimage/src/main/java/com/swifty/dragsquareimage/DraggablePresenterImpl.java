@@ -102,4 +102,9 @@ public class DraggablePresenterImpl implements DraggablePresenter, DraggableSqua
             dragSquare.fillItemImage(imageStatus, imageUrls[i], false);
         }
     }
+
+    @Override
+    public void setCustomActionDialog(ActionDialog actionDialog) {
+            dragSquare.setCustomActionDialog(actionDialog);
+    }
 }
