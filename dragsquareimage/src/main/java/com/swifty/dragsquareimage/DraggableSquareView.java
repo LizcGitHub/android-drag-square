@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.widget.ViewDragHelper;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.GestureDetector;
@@ -547,11 +546,14 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
         return true;
     }
 
+    /**
+     * if Itemview is empty then return null
+     * @return
+     */
     public SparseArray<String> getImageUrls() {
         SparseArray<String> stringSparseArray = new SparseArray<>();
         for (int i = 0; i < getChildCount(); i++) {
-            if (getChildAt(i) instanceof DraggableItemView
-                    && !TextUtils.isEmpty(((DraggableItemView) getChildAt(i)).getImagePath())) {
+            if (getChildAt(i) instanceof DraggableItemView) {
                 stringSparseArray.put(((DraggableItemView) getChildAt(i)).getStatus(), ((DraggableItemView) getChildAt(i)).getImagePath());
             }
         }
