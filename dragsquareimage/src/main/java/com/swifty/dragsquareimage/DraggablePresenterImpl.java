@@ -49,9 +49,12 @@ public class DraggablePresenterImpl implements DraggablePresenter, DraggableSqua
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent result) {
-        if (requestCode == Crop.REQUEST_PICK && resultCode == Activity.RESULT_OK) {
+        if (requestCode == Crop.REQUEST_PHOTO && resultCode == Activity.RESULT_OK) {
+            beginCrop(Crop.getOutputFileUri());
+        } else if (requestCode == Crop.REQUEST_PICK && resultCode == Activity.RESULT_OK) {
             beginCrop(result.getData());
         } else if (requestCode == Crop.REQUEST_CROP) {
+            Crop.clearCacheFile();
             handleCrop(resultCode, result);
         }
     }
@@ -91,6 +94,17 @@ public class DraggablePresenterImpl implements DraggablePresenter, DraggableSqua
     }
 
     @Override
+    public void takePhoto(int imageStatus, boolean isModify) {
+        this.imageStatus = imageStatus;
+        this.isModify = isModify;
+        if (activity != null) {
+            Crop.takePhoto(activity);
+        } else if (fragment != null) {
+            Crop.takePhoto(fragment);
+        }
+    }
+
+    @Override
     public SparseArray<String> getImageUrls() {
         return dragSquare.getImageUrls();
     }
@@ -105,6 +119,6 @@ public class DraggablePresenterImpl implements DraggablePresenter, DraggableSqua
 
     @Override
     public void setCustomActionDialog(ActionDialog actionDialog) {
-            dragSquare.setCustomActionDialog(actionDialog);
+        dragSquare.setCustomActionDialog(actionDialog);
     }
 }

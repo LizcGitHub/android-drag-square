@@ -11,14 +11,34 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
+import java.io.File;
+
 /**
  * Builder for crop Intents and utils for handling result
  */
 public class Crop {
 
+    public static final String TAG = "Crop";
     public static final int REQUEST_CROP = 6709;
     public static final int REQUEST_PICK = 9162;
+    public static final int REQUEST_PHOTO = 9163;
     public static final int RESULT_ERROR = 404;
+    private static Uri outputFileUri;
+
+    public static Uri getOutputFileUri() {
+        return outputFileUri;
+    }
+
+    public static void clearCacheFile() {
+        try {
+            if (outputFileUri != null) {
+                File file = new File(outputFileUri.getPath());
+                if (file.exists()) file.delete();
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e);
+        }
+    }
 
     interface Extra {
         String ASPECT_X = "aspect_x";
@@ -246,6 +266,96 @@ public class Crop {
             fragment.startActivityForResult(getImagePicker(), requestCode);
         } catch (ActivityNotFoundException e) {
             showImagePickerError(context);
+        }
+    }
+
+    /**
+     * Take photo from an Activity
+     *
+     * @param activity Activity to receive result
+     */
+    public static void takePhoto(Activity activity) {
+        takePhoto(activity, REQUEST_PHOTO);
+    }
+
+    public static void takePhoto(Fragment fragment) {
+        takePhoto(fragment.getActivity(), fragment, REQUEST_PHOTO);
+    }
+
+    /**
+     * Take photo from a Fragment
+     *
+     * @param context  Context
+     * @param fragment Fragment to receive result
+     */
+    public static void takePhoto(Context context, Fragment fragment) {
+        takePhoto(context, fragment, REQUEST_PHOTO);
+    }
+
+    /**
+     * Take photo from a support library Fragment
+     *
+     * @param context  Context
+     * @param fragment Fragment to receive result
+     */
+    public static void takePhoto(Context context, android.support.v4.app.Fragment fragment) {
+        takePhoto(context, fragment, REQUEST_PHOTO);
+    }
+
+    /**
+     * Take photo from an Activity with a custom request code
+     *
+     * @param activity    Activity to receive result
+     * @param requestCode requestCode for result
+     */
+    public static void takePhoto(Activity activity, int requestCode) {
+        try {
+            activity.startActivityForResult(getTakePhoto(), requestCode);
+        } catch (ActivityNotFoundException e) {
+            showTakePhotoError(activity);
+        }
+    }
+
+    private static Intent getTakePhoto() {
+        File file = CropUtil.createImageFile();
+        outputFileUri = Uri.fromFile(file);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+        return intent;
+    }
+
+    private static void showTakePhotoError(Context context) {
+        Toast.makeText(context, R.string.crop__pick_error, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Take photo from a Fragment with a custom request code
+     *
+     * @param context     Context
+     * @param fragment    Fragment to receive result
+     * @param requestCode requestCode for result
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static void takePhoto(Context context, Fragment fragment, int requestCode) {
+        try {
+            fragment.startActivityForResult(getImagePicker(), requestCode);
+        } catch (ActivityNotFoundException e) {
+            showImagePickerError(context);
+        }
+    }
+
+    /**
+     * Take photo from a support library Fragment with a custom request code
+     *
+     * @param context     Context
+     * @param fragment    Fragment to receive result
+     * @param requestCode requestCode for result
+     */
+    public static void takePhoto(Context context, android.support.v4.app.Fragment fragment, int requestCode) {
+        try {
+            fragment.startActivityForResult(getTakePhoto(), requestCode);
+        } catch (ActivityNotFoundException e) {
+            showTakePhotoError(context);
         }
     }
 

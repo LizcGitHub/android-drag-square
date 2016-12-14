@@ -95,6 +95,11 @@ public class DraggableItemView extends FrameLayout implements ActionDialogClick 
     }
 
     @Override
+    public void onTakePhotoClick(View view) {
+        if (listener != null) listener.takePhoto(status, isDraggable());
+    }
+
+    @Override
     public void onPickImageClick(View view) {
         if (listener != null) listener.pickImage(status, isDraggable());
     }
@@ -113,6 +118,8 @@ public class DraggableItemView extends FrameLayout implements ActionDialogClick 
 
     public interface Listener {
         void pickImage(int imageStatus, boolean isModify);
+
+        void takePhoto(int imageStatus, boolean isModify);
     }
 
     /**

@@ -54,6 +54,13 @@ public class MyActionDialog extends ActionDialog {
                 dismiss();
             }
         });
+        findViewById(com.swifty.dragsquareimage.R.id.take_photo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (actionDialogClick != null) actionDialogClick.onTakePhotoClick(v);
+                dismiss();
+            }
+        });
     }
 
     public void setActionDialogClick(ActionDialogClick actionDialogClick) {

@@ -151,6 +151,11 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
         if (listener != null) listener.pickImage(imageStatus, isModify);
     }
 
+    @Override
+    public void takePhoto(int imageStatus, boolean isModify) {
+        if (listener != null) listener.takePhoto(imageStatus, isModify);
+    }
+
     public void setCustomActionDialog(ActionDialog actionDialog) {
         this.actionDialog = actionDialog;
     }
@@ -165,6 +170,8 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
 
     public interface Listener {
         void pickImage(int imageStatus, boolean isModify);
+
+        void takePhoto(int imageStatus, boolean isModify);
     }
 
     /**
@@ -548,6 +555,7 @@ public class DraggableSquareView extends ViewGroup implements DraggableItemView.
 
     /**
      * if Itemview is empty then return null
+     *
      * @return
      */
     public SparseArray<String> getImageUrls() {

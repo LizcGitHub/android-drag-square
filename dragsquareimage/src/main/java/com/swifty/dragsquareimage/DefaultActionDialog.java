@@ -3,7 +3,6 @@ package com.swifty.dragsquareimage;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 
 /**
  * Created by Administrator on 2016/5/27.
@@ -28,7 +27,13 @@ public class DefaultActionDialog extends ActionDialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.default_action_dialog);
-
+        findViewById(R.id.take_photo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (actionDialogClick != null) actionDialogClick.onTakePhotoClick(v);
+                dismiss();
+            }
+        });
         findViewById(R.id.pick_image).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
