@@ -338,7 +338,7 @@ public class Crop {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static void takePhoto(Context context, Fragment fragment, int requestCode) {
         try {
-            fragment.startActivityForResult(getImagePicker(), requestCode);
+            fragment.startActivityForResult(getTakePhoto(), requestCode);
         } catch (ActivityNotFoundException e) {
             showImagePickerError(context);
         }
