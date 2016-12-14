@@ -1,6 +1,7 @@
 package com.stone.dragsquare;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -11,9 +12,7 @@ import com.swifty.dragsquareimage.ActionDialogClick;
 /**
  * Created by Administrator on 2016/5/27.
  */
-public class MyActionDialog extends ActionDialog {
-
-    public ActionDialogClick actionDialogClick;
+public class MyActionDialog extends ActionDialog implements DialogInterface.OnShowListener {
 
     protected MyActionDialog(Context context) {
         super(context);
@@ -61,10 +60,32 @@ public class MyActionDialog extends ActionDialog {
                 dismiss();
             }
         });
+        setOnShowListener(this);
     }
 
-    public void setActionDialogClick(ActionDialogClick actionDialogClick) {
+    @Override
+    public void onShow(DialogInterface dialog) {
+        if (showDeleteButton()) {
+            findViewById(com.swifty.dragsquareimage.R.id.delete).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(com.swifty.dragsquareimage.R.id.delete).setVisibility(View.GONE);
+        }
+    }
+
+    public ActionDialog setActionDialogClick(ActionDialogClick actionDialogClick) {
         this.actionDialogClick = actionDialogClick;
+        return this;
+    }
+
+    @Override
+    public boolean showDeleteButton() {
+        return showDeleteButton;
+    }
+
+    @Override
+    public ActionDialog setShowDeleteButton(boolean showDeleteButton) {
+        this.showDeleteButton = showDeleteButton;
+        return this;
     }
 
 }

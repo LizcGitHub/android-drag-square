@@ -11,6 +11,9 @@ import android.support.v7.app.AlertDialog;
  */
 
 public abstract class ActionDialog extends AlertDialog {
+    protected boolean showDeleteButton;
+    protected ActionDialogClick actionDialogClick;
+
     protected ActionDialog(@NonNull Context context) {
         super(context);
     }
@@ -23,5 +26,9 @@ public abstract class ActionDialog extends AlertDialog {
         super(context, cancelable, cancelListener);
     }
 
-    public abstract void setActionDialogClick(ActionDialogClick actionDialogClick);
+    public abstract ActionDialog setActionDialogClick(ActionDialogClick actionDialogClick);
+
+    public abstract boolean showDeleteButton();
+
+    public abstract ActionDialog setShowDeleteButton(boolean showDeleteButton);
 }

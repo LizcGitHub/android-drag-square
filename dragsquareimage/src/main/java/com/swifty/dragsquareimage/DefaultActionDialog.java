@@ -1,15 +1,14 @@
 package com.swifty.dragsquareimage;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 
 /**
  * Created by Administrator on 2016/5/27.
  */
-public class DefaultActionDialog extends ActionDialog {
-
-    public ActionDialogClick actionDialogClick;
+public class DefaultActionDialog extends ActionDialog implements DialogInterface.OnShowListener {
 
     protected DefaultActionDialog(Context context) {
         super(context);
@@ -48,10 +47,32 @@ public class DefaultActionDialog extends ActionDialog {
                 dismiss();
             }
         });
+        setOnShowListener(this);
     }
 
-    public void setActionDialogClick(ActionDialogClick actionDialogClick) {
+    @Override
+    public void onShow(DialogInterface dialog) {
+        if (showDeleteButton()) {
+            findViewById(R.id.delete).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.delete).setVisibility(View.GONE);
+        }
+    }
+
+    public ActionDialog setActionDialogClick(ActionDialogClick actionDialogClick) {
         this.actionDialogClick = actionDialogClick;
+        return this;
+    }
+
+    @Override
+    public boolean showDeleteButton() {
+        return showDeleteButton;
+    }
+
+    @Override
+    public ActionDialog setShowDeleteButton(boolean showDeleteButton) {
+        this.showDeleteButton = showDeleteButton;
+        return this;
     }
 
 }

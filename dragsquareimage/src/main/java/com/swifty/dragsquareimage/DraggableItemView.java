@@ -77,15 +77,29 @@ public class DraggableItemView extends FrameLayout implements ActionDialogClick 
             @Override
             public void onClick(View v) {
                 if (!isDraggable()) {
-                    if (listener != null) listener.pickImage(status, isDraggable());
+                    if (parentView.getActionDialog() == null) {
+                        DefaultActionDialog dialog = new DefaultActionDialog(getContext());
+                        dialog.setActionDialogClick(DraggableItemView.this)
+                                .setShowDeleteButton(false)
+                                .show();
+                    } else {
+                        parentView.getActionDialog()
+                                .setActionDialogClick(DraggableItemView.this)
+                                .setShowDeleteButton(false)
+                                .show();
+                    }
                 } else {
                     if (parentView.getActionDialog() == null) {
                         DefaultActionDialog dialog = new DefaultActionDialog(getContext());
-                        dialog.setActionDialogClick(DraggableItemView.this);
-                        dialog.show();
+                        dialog.setActionDialogClick(DraggableItemView.this)
+                                .setShowDeleteButton(true)
+                                .show();
                     } else {
                         parentView.getActionDialog().setActionDialogClick(DraggableItemView.this);
-                        parentView.getActionDialog().show();
+                        parentView.getActionDialog()
+                                .setActionDialogClick(DraggableItemView.this)
+                                .setShowDeleteButton(true)
+                                .show();
                     }
                 }
             }
