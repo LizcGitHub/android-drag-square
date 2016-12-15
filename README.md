@@ -81,6 +81,3 @@ edit personal data which enables users to drag and rank image order
 	 <img src="capture2.gif" width="290" height="485" />
 	 <img src="capture3.gif" width="290" height="485" />
 </td>
-
-### Apk下载
-[apk download](app-debug.apk) (就在该工程之中)
