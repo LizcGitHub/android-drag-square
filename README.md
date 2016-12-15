@@ -1,15 +1,69 @@
 <h1>Modified by Swifty</h1>
-refactor the repository, easy to use.
+refactor the repository, easy to use with gradle import.
 [![](https://jitpack.io/v/SwiftyWang/android-drag-square.svg)](https://jitpack.io/#SwiftyWang/android-drag-square)
 
+<h3>How to use</h3>
+Add it in your root build.gradle at the end of repositories:
+
+```gradle
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+Step 2. Add the dependency
+```gradle
+	dependencies {
+	        compile 'com.github.SwiftyWang.android-drag-square:android-crop:1.2.3'
+	}
+```
+
+<h3>get DraggablePresenter</h3>
 ```java
         DraggableSquareView dragSquare = (DraggableSquareView) findViewById(R.id.drag_square);
         contentText = (TextView) findViewById(R.id.contentText);
-        draggablePresent = new DraggablePresentImpl(dragSquare);
-	draggablePresent.getImageUrls();
+        draggablePresent = new DraggablePresentImpl(fragment, dragSquare);
+        draggablePresent = new DraggablePresentImpl(activity, dragSquare);
 ```
 
+need pass activity callback to DraggablePresentImpl:
+```java
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent result) {
+        draggablePresent.onActivityResult(requestCode, resultCode, result);
+    }
+```
 
+<h3>Set customer dialog</h3>
+Customer dialog must extends ActionDialog.class
+```java
+    draggablePresent.setCustomActionDialog(new MyActionDialog(Context));
+```
+
+<h3>listen image changes</h3>
+```java
+    dragSquare.setImageChangesListener(imageChangesListener);
+
+    public interface ImageChangesListener {
+        void onImageAdded(String uri, int index);
+
+        void onImageEdited(String uri, int index);
+
+        void onImageDeleted(String uri, int index);
+    }
+```
+
+<h3>All public apis</h3>
+```java
+    SparseArray<String> getImageUrls();
+
+    void setImages(String... imageUrls);
+
+    void setCustomActionDialog(ActionDialog actionDialog);
+```
 
 
 # android-drag-square
