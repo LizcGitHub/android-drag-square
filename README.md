@@ -17,7 +17,7 @@ Add it in your root build.gradle at the end of repositories:
 Step 2. Add the dependency
 ```gradle
 	dependencies {
-	        compile 'com.github.SwiftyWang.android-drag-square:android-crop:1.2.3'
+	        compile 'com.github.SwiftyWang.android-drag-square:dragsquareimage:1.2.3'
 	}
 ```
 
