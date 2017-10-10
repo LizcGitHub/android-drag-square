@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
 import java.io.File;
@@ -310,15 +311,15 @@ public class Crop {
      */
     public static void takePhoto(Activity activity, int requestCode) {
         try {
-            activity.startActivityForResult(getTakePhoto(), requestCode);
+            activity.startActivityForResult(getTakePhoto(activity.getApplicationContext()), requestCode);
         } catch (ActivityNotFoundException e) {
             showTakePhotoError(activity);
         }
     }
 
-    private static Intent getTakePhoto() {
+    private static Intent getTakePhoto(Context context) {
         File file = CropUtil.createImageFile();
-        outputFileUri = Uri.fromFile(file);
+        outputFileUri = FileProvider.getUriForFile(context, "com.soundcloud.android.crop.provider.SwiftyFileProvider", file);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
         return intent;
@@ -338,7 +339,7 @@ public class Crop {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static void takePhoto(Context context, Fragment fragment, int requestCode) {
         try {
-            fragment.startActivityForResult(getTakePhoto(), requestCode);
+            fragment.startActivityForResult(getTakePhoto(context), requestCode);
         } catch (ActivityNotFoundException e) {
             showImagePickerError(context);
         }
@@ -353,7 +354,7 @@ public class Crop {
      */
     public static void takePhoto(Context context, android.support.v4.app.Fragment fragment, int requestCode) {
         try {
-            fragment.startActivityForResult(getTakePhoto(), requestCode);
+            fragment.startActivityForResult(getTakePhoto(context), requestCode);
         } catch (ActivityNotFoundException e) {
             showTakePhotoError(context);
         }
