@@ -1,8 +1,8 @@
-<h1>Modified by Swifty</h1>
-refactor the repository, easy to use with gradle import.
+# Modified by Swifty
+## refactor the repository, easy to use with gradle import.
 [![](https://jitpack.io/v/SwiftyWang/android-drag-square.svg)](https://jitpack.io/#SwiftyWang/android-drag-square)
 
-<h3>How to use</h3>
+## How to use
 Add it in your root build.gradle at the end of repositories:
 
 ```gradle
@@ -14,14 +14,14 @@ Add it in your root build.gradle at the end of repositories:
 	}
 ```
 
-Step 2. Add the dependency
+Add the dependency
 ```gradle
 	dependencies {
 	        compile 'com.github.SwiftyWang.android-drag-square:dragsquareimage:1.2.3'
 	}
 ```
 
-<h3>get DraggablePresenter</h3>
+get DraggablePresenter
 ```java
         DraggableSquareView dragSquare = (DraggableSquareView) findViewById(R.id.drag_square);
         contentText = (TextView) findViewById(R.id.contentText);
@@ -29,7 +29,7 @@ Step 2. Add the dependency
         draggablePresent = new DraggablePresentImpl(activity, dragSquare);
 ```
 
-need pass activity callback to DraggablePresentImpl:
+need pass activity callback to DraggablePresentImpl
 ```java
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent result) {
@@ -37,13 +37,12 @@ need pass activity callback to DraggablePresentImpl:
     }
 ```
 
-<h3>Set customer dialog</h3>
-Customer dialog must extends ActionDialog.class
+Set customer dialog, Customer dialog must extends ActionDialog.class
 ```java
     draggablePresent.setCustomActionDialog(new MyActionDialog(Context));
 ```
 
-<h3>listen image changes</h3>
+listen image changes
 ```java
     dragSquare.setImageChangesListener(imageChangesListener);
 
@@ -55,8 +54,7 @@ Customer dialog must extends ActionDialog.class
         void onImageDeleted(String uri, int index);
     }
 ```
-
-<h3>All public apis</h3>
+All public apis
 ```java
     SparseArray<String> getImageUrls();
 
